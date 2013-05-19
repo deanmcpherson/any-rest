@@ -1,0 +1,119 @@
+<div style="height:2.5em;" class="show-for-small"></div>
+<h1>{{client.name}}</h1><button ng-click="toggleAminMode(true)" ng-hide="adminMode" class="admin">Edit Mode</button><button ng-click="toggleAminMode(false)" ng-show="adminMode" class="admin alert">Close Edit Mode</button>
+	
+	<table style="width:100%;">
+		<tr ng-show="client.contactName"><th width="200px">Contact Name</th><td>{{client.contactName}}</td></tr>
+		<tr ng-show="client.contactNumber"><th width="200px">Contact Number</th><td><a href="tel:{{client.contactNumber}}">{{client.contactNumber}}</a></td></tr>
+		<tr ng-show="client.contactEmail"><th width="200px">Contact Email</th><td><a href="mailto:{{client.contactEmail}}">{{client.contactEmail}}</a></td></tr>
+		<tr ng-show="client.accountManager"><th width="200px">Account Manager</th><td>{{client.accountManager}}</td></tr>
+		<tr ng-show="client.developer"><th width="200px">Lead Developer</th><td>{{client.developer}}</td></tr>
+	</table>
+	<h2>Apps</h2>
+	<div class="row">
+		<div ng-repeat="app in apps" class="columns large-6">
+	<table style="width: 100%;">
+		<tr><th colspan="2"><a href="{{base}}/admin/{{app.client}}/{{app.code}}"><h3 class="columns large-12 panel callout" style="text-align: center; color: white;">{{app.name}}</h3></a></th></tr>
+		<tr><th width="70px">Code</th><td>{{app.code}}</td></tr>
+		<tr><th>Type</th><td>{{app.type}}</td></tr>
+		<tr><th>Status</th><td>{{app.status}}</td></tr>
+		<tr><th>Environments</th><td> <div ng-repeat="env in app.envs"><a  href="{{env.url.browser}}">{{env.name}}</a></div></td></tr>
+
+	</table>
+	</div>
+	</div>
+	<div ng-show="client.testcases">
+		<h2>Test Cases</h2>
+		<div markdown class="panel" cont="client.testcases">
+		</div>
+	</div>
+	<div ng-show="client.webservice">
+		<h2>Web Service Calls</h2>
+		<div markdown class="panel" cont="client.webservice">
+		</div>
+	</div>
+	<div data-alert ng-show="message" class="alert-box {{messageClass}}" ng-bind-html-unsafe="message">
+		</div>
+		<span ng-show="adminMode">
+<button ng-click="editMode(true)" ng-hide="action">Edit client details</button>
+<div ng-show="editing" ng-form='clientForm' class="columns large-12 panel">
+	<button ng-click="editMode(false)" class="alert foundicon-minus round" style="float:right"></button>
+		<h2>Edit Client Details</h2>
+		<div class="large-6 columns">
+			<label>Client Name</label>
+			<input type="text" ng-model="client.name" placeholder="e.g. SomeCompany Inc." ng-disabled="{{disabled}}"/>
+		</div>
+		<div class="large-6 columns">
+			<label>Client Code</label>
+			<input type="text" ng-model="client.code" placeholder="e.g. SCI" disabled="disabled" required/>
+		</div>
+
+		<div class="large-12 columns">
+			<h3>Contact Details</h3>
+		</div>
+		<div class="large-4 columns">
+			<label>Name</label>
+			<input type="text" ng-model="client.contactName" placeholder="e.g. John Doe" ng-disabled="{{disabled}}"/>
+		</div>
+		<div class="large-4 columns">
+			<label>Number</label>
+			<input type="text" ng-model="client.contactNumber" placeholder="e.g. (02) xxx xxx xx" ng-disabled="{{disabled}}"/>
+		</div>
+		<div class="large-4 columns">
+			<label>Email</label>
+			<input type="text" ng-model="client.contactEmail" placeholder="e.g. man@somecompany.com" ng-disabled="{{disabled}}"/>
+		</div>
+		<div class="large-12 columns">
+			<h3>Account Details</h3>
+		</div>
+		<div class="large-4 columns">
+			<label>Account Manager</label>
+			<input type="text" ng-model="client.accountManager" ng-disabled="{{disabled}}"/>
+		</div>
+		<div class="large-4 columns">
+			<label>Lead Developer</label>
+			<input type="text" ng-model="client.developer" ng-disabled="{{disabled}}"/>
+		</div>
+		<div class="large-12 columns">
+			<h3>Tech Details</h3>
+		</div>
+		<div class="large-12 columns">
+			<label>Test Cases</label>
+			<textarea ng-model="client.testcases" ng-disabled="{{disabled}}"></textarea>
+		</div>
+		<div class="large-12 columns">
+			<label>Webservice Calls</label>
+			<textarea ng-model="client.webservice" ng-disabled="{{disabled}}"></textarea>
+		</div>
+		<div class="large-4 columns">
+			
+		</div>
+		<div class="large-12 columns">
+			<button ng-disabled="!clientForm.$valid" ng-click="updateClient()">Update Client</button> <button ng-click="deleteClient()" class="alert">Delete</button>
+		</div>
+</div>
+<button ng-hide="action" ng-click="addMode(true)">Add an app</button>
+<div ng-show="adding" ng-form='appForm' class="columns large-12 panel callout">
+<button ng-click="addMode(false)" class="alert foundicon-minus round" style="float:right"></button>
+	<h2>Add a new app for {{client.name}}</h2>
+		<div class="large-6 columns">
+			<label>App Name</label>
+			<input type="text" ng-model="new.name" placeholder="" ng-disabled="{{disabled}}"/>
+		</div>
+		<div class="large-6 columns">
+			<label>App Code (careful, you can't change this)</label>
+			<input type="text" ng-model="new.code" ng-disabled="{{disabled}}" required/>
+		</div>
+		<div class="large-6 columns">
+			<label>Type</label>
+			<select ng-model="new.type" placeholder="" ng-disabled="{{disabled}}"><option>Public Forms</option><option>Forms</option><option>Mobile Site</option></select>
+		</div>
+		<div class="large-6 columns">
+			<label>Status</label>
+			<select ng-model="new.status" ng-disabled="{{disabled}}"><option>Pilot</option><option>Demo</option><option>Live</option></select>
+		</div>
+		<div class="large-12 columns">
+			<button ng-disabled="!appForm.$valid" class="success" ng-click="addNew()">Add app</button>
+		</div>
+	</span>
+</div>
+</div>

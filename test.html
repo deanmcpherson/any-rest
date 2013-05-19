@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" ng-app="admin"> <!--<![endif]-->
+
+<head>
+	<meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <title>Client Portal</title>
+
+  
+  <link rel="stylesheet" href="/any/css/foundation.css" />
+  <link rel="stylesheet" href="/any/css/admin.css" />
+  
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script>
+  <script type="text/javascript" src="http://code.angularjs.org/1.1.4/angular-resource.min.js"></script>
+  <script type="text/javascript" src="/any/js/showdown.js"></script>
+  <script type="text/javascript" src="/any/js/fastclick.js"></script>
+  <script type="text/javascript" src="/any/js/admin.js"></script>
+  <script src="/any/js/vendor/custom.modernizr.js"></script>
+
+</head>
+<body>
+  <div id="wrapper" class="row">
+<div ng-view class="large-12 columns">
+</div>
+</div>
+  <script>
+  document.write('<script src=' +
+  ('__proto__' in {} ? '/any/js/vendor/zepto' : '/any/js/vendor/jquery') +
+  '.js><\/script>')
+  </script>
+  
+  <script src="/any/js/foundation.min.js"></script>
+  <!--
+  
+  <script src="js/foundation/foundation.js"></script>
+  
+  <script src="js/foundation/foundation.alerts.js"></script>
+  
+  <script src="js/foundation/foundation.clearing.js"></script>
+  
+  <script src="js/foundation/foundation.cookie.js"></script>
+  
+  <script src="js/foundation/foundation.dropdown.js"></script>
+  
+  <script src="js/foundation/foundation.forms.js"></script>
+  
+  <script src="js/foundation/foundation.joyride.js"></script>
+  
+  <script src="js/foundation/foundation.magellan.js"></script>
+  
+  <script src="js/foundation/foundation.orbit.js"></script>
+  
+  <script src="js/foundation/foundation.placeholder.js"></script>
+  
+  <script src="js/foundation/foundation.reveal.js"></script>
+  
+  <script src="js/foundation/foundation.section.js"></script>
+  
+  <script src="js/foundation/foundation.tooltips.js"></script>
+  
+  <script src="js/foundation/foundation.topbar.js"></script>
+  
+  -->
+  
+  <script>
+    $(document).foundation();
+    $(function() {
+    FastClick.attach(document.body);
+});
+  </script>
+</body>
+</html>

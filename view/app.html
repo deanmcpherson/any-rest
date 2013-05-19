@@ -1,0 +1,85 @@
+<div style="height:2.5em;" class="show-for-small"></div>
+<h1>{{app.name}}</h1><button ng-click="toggleAminMode(true)" ng-hide="adminMode" class="admin">Edit Mode</button><button ng-click="toggleAminMode(false)" ng-show="adminMode" class="admin alert">Close Edit Mode</button>
+<table style="width:100%; position:relative;">
+	<tr><th width="100px">Name</th><td ng-hide="editAppSettings">{{app.name}}<span  ng-show="adminMode"><button ng-hide='editAppSettings' ng-click="toggle('editAppSettings', true)" class="foundicon-tools round" style="position:absolute; top:-10px; right:-10px;"></button></span></td><td ng-show="editAppSettings"><input type="text" ng-model="app.name" /><button class="foundicon-remove round alert" ng-click="toggle('editAppSettings', false)" style="position:absolute; top:-10px; right:-10px;"></button></td></tr>
+	<tr><th>Code</th><td ng-hide="editAppSettings">{{app.code}}</td><td ng-show="editAppSettings"><input disabled="disabled" type="text" ng-model="app.code" /></td></tr>
+	<tr><th>Type</th><td ng-hide="editAppSettings">{{app.type}}</td><td ng-show="editAppSettings"><select ng-model="app.type"><option>Public Forms</option><option>Forms</option><option>Mobile Site</option></select></td></tr>
+	<tr><th>Status</th><td ng-hide="editAppSettings">{{app.status}}</td><td ng-show="editAppSettings"><select ng-model="app.status"><option>Pilot</option><option>Demo</option><option>Live</option></select></td></tr>
+	<tr ng-show="editAppSettings"><td><button ng-click="save()">Save</button></td><td style="text-align:right;"><button ng-click="deleteApp()" class="alert">Delete</button</td>
+</table>
+
+<div class="columns large-12"><h2>Environments</h2>
+<div ng-repeat="env in app.envs" class="large-6 columns">
+	<table style="width:100%;" ng-hide="env.editing">
+		<tr><th width="50px">Name</th><td>{{env.name}}<button ng-show="adminMode" ng-click="toggleEnvEdit(true)" class="foundicon-tools round" style="position:absolute; top:-5px; right:5px;"></button></td></tr>
+		<tr><th>Type</th><td>{{env.type}}</td></tr>
+		<tr><th>Hidden</th><td>{{env.hidden}}</td></tr>
+		<tr><th>URLs</th><td>	
+			<a  ng-show="env.url.browser" href="{{env.url.browser}}">Browser</a><br>
+			<a  ng-show="env.url.ios"href="{{env.url.ios}}">iOS</a><br>
+			<a  ng-show="env.url.iosarchive"href="{{env.url.ios}}">iOS Archive</a><br>
+			<a ng-show="env.url.android" href="{{env.url.android}}">android</a><br>
+			<a  ng-show="env.url.windows8" href="{{env.url.windows8}}">Windows 8</a><br>
+		</td></tr>
+		<tr><th>Webservice</th><td>{{env.webservice}}</td></tr>
+		<tr><th colspan="2"></th></tr>
+	</table>
+	<table ng-show="env.editing" style="width:100%;">
+		<tr><th width="50px">Name</th><td><input type="text" ng-model="env.name" /><button ng-click="toggleEnvEdit(false)" class="foundicon-remove round alert" style="position:absolute; top:-5px; right:5px;"></button></td></tr>
+	<tr><th>Type</th><td><select ng-model="env.type"><option>Live</option><option>Test</option></select></td></tr>
+	<tr><th>Hidden</th><td><input type="checkbox" ng-model="env.hidden" /></td></tr>
+	<tr><th>URLs</th><td>
+			<label>Browser</label>
+				<input type="text" ng-model="env.url.browser" />
+				<label>iOS</label>
+				<input type="text" ng-model="env.url.ios" />
+				<label>iOS Archive</label>
+				<input type="text" ng-model="env.url.iosarchive" />
+				<label>Android</label>
+				<input type="text" ng-model="env.url.android" />
+				<label>Windows 8</label>
+				<input type="text" ng-model="env.url.windows8" />
+	</td></tr>
+	<tr><th>Webservice</th><td><textarea ng-model="env.webservice"></textarea></td></tr>
+	<tr><td></td><td><button ng-click="save()">Save</button><button ng-click="deleteEnv()" class="alert">Delete</button</td>
+	</table>
+</div>
+<div ng-show="addNewEnv" class="large-12 columns panel">
+	<button ng-click="toggle('addNewEnv', false)" class="foundicon-minus round alert" style="float:right;"></button>
+	<h2>New Environment</h2>
+<table  style="width:100%;">
+	<tr><th>Name</th><td><input type="text" ng-model="new.name" /></td></tr>
+	<tr><th>Type</th><td><select ng-model="new.type"><option>Live</option><option>Test</option></select></td></tr>
+	<tr><th>Hidden</th><td><input type="checkbox" ng-model="new.hidden" /></td></tr>
+	<tr><th>URLs</th><td>
+			<label>Browser</label>
+				<input type="text" ng-model="new.url.browser" />
+				<label>iOS</label>
+				<input type="text" ng-model="new.url.ios" />
+				<label>iOS Archive</label>
+				<input type="text" ng-model="new.url.iosarchive" />
+				<label>Android</label>
+				<input type="text" ng-model="new.url.android" />
+				<label>Windows 8</label>
+				<input type="text" ng-model="new.url.windows8" />
+	</td></tr>
+	<tr><th>Webservice</th><td><textarea ng-model="new.webservice"></textarea></td></tr>
+	
+</table><button ng-click="saveEnv()">Save</button></div></div>
+<span ng-show="adminMode">
+<div class="columns large-12">
+	<button class="foundicon-plus round" ng-hide="addNewEnv" ng-click="toggle('addNewEnv', true)"> environment</button>
+<div data-alert ng-show="message" class="alert-box {{messageClass}}" ng-bind-html-unsafe="message"></div>
+</div>
+</span>
+<div class="columns large-12">
+	<h2>History</h2>
+	<label>Add Log item</label>
+	<form ng-submit="addNewLog()">
+	<input type="text" ng-model="newLog">
+	 <input type="submit" id="submit" value="Submit" style="display:none";/>
+	</form>
+	<table class="large-12 columns">
+		<tr ng-repeat="hist in app.historyArray | orderBy:dateOrder"><th width="120px">{{hist.date | date:'short'}}</th><td>{{hist.note}}</td></tr>
+	</table>
+</div>
