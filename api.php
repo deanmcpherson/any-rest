@@ -109,7 +109,13 @@ Class API {
 	public function add(){
 		$params = $this->req->get();
 		$data = json_decode($this->req->getBody());
-		returnJSON($this->col->insert($data));
+		$res = $this->col->insert($data);
+		if ($res) {
+			returnJSON($data);
+		} else
+		{
+			returnJSON ($res);
+		}
 	}
 	public function update (){
 		$params = $this->req->get();
@@ -119,19 +125,22 @@ Class API {
 
 	public function delete (){
 		$params = $this->req->delete();
-		returnJSON($this->col->remove($params));
+		returnJSON($this->col->remove($params, array("justOne" => true)));
 	}
 	public function getByID ($id){
-		returnJSON($this->col->find(array('_id'=>$id)));
+		returnJSON($this->col->find(array('_id'=>new MongoId($id) )));
 	}
 
 	public function updateByID ($id){
 		$params = $this->req->get();
 		$data = $this->req->put();
-		returnJSON($this->col->update(array('_id'=>$id), $update));
+		returnJSON($this->col->update(array('_id'=>new MongoId($id)), $data));
 	}
+
 	public function deleteByID ($id){
-		returnJSON($this->col->remove(array('_id'=>$id), $update));
+		$mID = new MongoId((String)$id);
+		$criterea = array('_id' => $mID);
+		returnJSON($this->col->remove($criterea));
 	}
 
 	public function run() {

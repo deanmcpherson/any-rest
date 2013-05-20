@@ -1,5 +1,5 @@
 var conf = {
-	base:'/any'
+	base:'/any-rest'
 };
 
 var admin = angular.module('admin', ['ngResource'])
@@ -34,16 +34,26 @@ var admin = angular.module('admin', ['ngResource'])
 });
 
 
-function ListCtrl($scope, $resource) {
+function ListCtrl($scope, $resource, $timeout) {
 	var Client = $resource(conf.base +'/api/client/:id');
 
 	$scope.clients = Client.query();
 
 	$scope.new = {};
+	$scope.log = function() {
+		console.log($scope);
+	}
 	$scope.submit = function() {
 	 	var client = new Client({name: $scope.new.name});
-	 	client.$save();
+	 	client.$save(function(u){
+	 		$scope.clients.push(u);
+	 	});
 	}
-
+	$scope.remove = function(u){
+			if (u.n !== 0) {
+				var index = $scope.clients.indexOf(u);
+				$scope.clients.splice(index, 1);
+			} 
+		}
 }
 

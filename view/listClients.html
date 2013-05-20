@@ -1,10 +1,10 @@
 <h1>Clients</h1>
 <div ng-repeat="c in clients" class="panel">
-	{{c.name}}
+	{{c.name}} <div style="float:right;" class="foundicon-minus" ng-click="c.$remove(remove)"></div>
 </div>
 
-<fomr ng-submit="sumbit()">
+<form ng-submit="submit()">
 <input type="text" ng-model="new.name"  ng-required/>
 <input type="submit" style="display:none;" name="submit" />
 </form>
-<button ng-click="submit()">Submit</button>
+<button ng-click="log()">Log</button>
