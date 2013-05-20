@@ -44,35 +44,36 @@ Class API {
 			$api->find();
 		});
 
-		$app->post('/api/:col', function($col) use ($api) {
+		$app->post('/api/add/:col', function($col) use ($api) {
 			$api->setCollection($col);
 			$api->add();
 		});
 
-		$app->put('/api/:col', function($col) use ($api) {
+		$app->post('/api/update/:col', function($col) use ($api) {
 			$api->setCollection($col);
-			$api->update();
+			$api->updateWhere();
 		});
 
-		$app->delete('/api/:col', function($col) use ($api) {
+		$app->get('/api/remove/:col', function($col) use ($api) {
 			$api->setCollection($col);
-			$api->delete();
+			$api->removeWhere();
+		});
+
+		$app->get('/api/remove/:col/:id', function($col, $id) use ($api) {
+			$api->setCollection($col);
+			$api->deleteById($id);
 		});
 
 		$app->get('/api/:col/:id', function($col, $id) use ($api) {
 			$api->setCollection($col);
-			$api->getByID($id);
+			$api->getById($id);
 		});
 
-		$app->put('/api/:col/:id', function($col, $id) use ($api) {
+		$app->post('/api/update/:col/:id', function($col, $id) use ($api) {
 			$api->setCollection($col);
-			$api->updateByID($id);
+			$api->updateById($id);
 		});
 
-		$app->delete('/api/:col/:id', function($col, $id) use ($api) {
-			$api->setCollection($col);
-			$api->deleteByID($id);
-		});
 		$this->app = $app;
 	}
 
@@ -93,7 +94,6 @@ Class API {
 			}
 		}
 	}
-
 
 	/**BEGIN DB WORK**/
 	public function find (){
